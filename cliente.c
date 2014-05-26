@@ -6,7 +6,7 @@
 #include "bib.c"
 
 #define SIZE 32
-#define PIPE_NAME "/tmp/so"
+#define PIPE_NAME "/tmp/server"
 
 int main(int argc, char **argv) {
   int fd = open(PIPE_NAME, O_WRONLY);

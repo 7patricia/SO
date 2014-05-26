@@ -5,11 +5,14 @@
 #include <fcntl.h>
 
 #define SIZE 32
-#define PIPE_NAME "/tmp/patrcia"
+#define PIPE_NAME "/tmp/server"
 
 int main(int argc, char **argv) {
   mkfifo(PIPE_NAME, 0666);
   char buf[SIZE];
+  char *comando;
+  char **args;
+  int num, i=0;
 
   int fd = open(PIPE_NAME, O_RDONLY);
 
@@ -18,16 +21,24 @@ int main(int argc, char **argv) {
   while (1) {
     // 1. ler o comando
     read(fd, buf, SIZE);
+    comando = strtok(buf," ");
+    args[i] = strtok(NULL,buf);
 
-    // 2. separar a string
+  while(!(isNumber(args[i])))
+  {
+    i++;
+    args[i] = strtok(NULL,buf);
+  }
 
-    if ("INCREMENTA") {
-      incrementa(["Braga", "Amares"], 10);
+  num = atoi(args[i]); 
+
+    if (strcmp(comando,"incrementar")) {
+      incrementar(args, num);
       gravar_as_cenas_em_ficheiro();
     }
-    else if ("AGREGAR") {
+    else if (strcmp(comando,"agregar")) {
       if fork() {
-        agrega(["Braga", "Amares"], 0, "/tmp/cenas");
+        agregar(args, num, "/tmp/cserver");
       }
     }
 
