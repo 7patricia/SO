@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include "bib.c"
+#include <string.h>
 
 #define SIZE 32
 #define PIPE_NAME "/tmp/server"
@@ -15,6 +15,8 @@ int main(int argc, char **argv) {
   while (1) {
     printf("Mensagem a enviar para o servidor: ");
     gets(buf);
+    int size = strlen(buf);
+    write(fd, &size, sizeof(int));
     write(fd, buf, SIZE);
   }
 }

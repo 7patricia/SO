@@ -3,49 +3,49 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define SIZE 32
 #define PIPE_NAME "/tmp/server"
+
+#include "bib.h"
 
 int main(int argc, char **argv) {
   mkfifo(PIPE_NAME, 0666);
   char buf[SIZE];
   char *comando;
-  char *args[20];
-  int i=0;
 
   int fd = open(PIPE_NAME, O_RDONLY);
 
-  // Arvore *contadores;
-
   while (1) {
-    i = 0;
     // 1. ler o comando
-    read(0, buf, SIZE);
+    int cmd_size;
+    read(fd, &cmd_size, sizeof(int));
+    read(fd, buf, cmd_size);
+    buf[cmd_size]=+'\0';
+
     comando = strtok(buf," ");
-    char*token;
-    while((token = strtok(NULL, " "))!=NULL)  {
-      printf("token:%s",token);
-      strcpy(args[i], token);
-      i++;
+
+    if (strcmp(comando, "incrementar") == 0) {
+      struct args_incrementar args_inc = parse_args_incrementar();
+
+      incrementar(args_incrementar.nomes, args_incrementar.valor);
+        // TODO 1.procurar o distrito (criar se nao existir)
+        // TODO 2.procurar o conselho (criar se nao existir)
+        // TODO 3.procurar a freguesia (criar se nao existir)
+        //
+        // TODO 4.incrementar o valor
+    } else if (strcmp(comando, "agregar") == 0) {
+      struct args_agregar args_ag = parse_args_agregar();
+
+      agregar(args_agregar.nomes, args_agregar.nivel, args_agregar.ficheiro);
+        // TODO 5. nivel == 0 ..
+        // TODO 5. nivel == 1 ..
+        // TODO 5. nivel == 2 ..
+        // TODO 5. nivel == 3 ..
+        //
+        // TODO muitos. gravar no ficheiro
     }
-
-    int valor = atoi(token[i-1]);
-    int num_tokens = i-2;
-
-    int j;
-    for(j=0;j<num_tokens;j++){
-      printf("%s\n",args[j]);
-    }
-
-    // if (strcmp(comando,"incrementar")) {
-    //   incrementar(args, valor);
-    //   gravar_as_cenas_em_ficheiro();
-    // }
-    // else if (strcmp(comando,"agregar")) {
-    //   if fork() {
-    //     agregar(args, valor, "/tmp/server");
-    //   }
-    // }
   }
 }
