@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     if (strcmp(comando, "incrementar") == 0) {
       struct args_incrementar args_inc = parse_args_incrementar();
 
-      incrementar(args_incrementar.nomes, args_incrementar.valor);
+      incrementar(args_inc.nomes, args_inc.valor);
         // TODO 1.procurar o distrito (criar se nao existir)
         // TODO 2.procurar o conselho (criar se nao existir)
         // TODO 3.procurar a freguesia (criar se nao existir)
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     } else if (strcmp(comando, "agregar") == 0) {
       struct args_agregar args_ag = parse_args_agregar();
 
-      agregar(args_agregar.nomes, args_agregar.nivel, args_agregar.ficheiro);
+      agregar(args_ag.nomes, args_ag.nivel, args_ag.ficheiro);
         // TODO 5. nivel == 0 ..
         // TODO 5. nivel == 1 ..
         // TODO 5. nivel == 2 ..

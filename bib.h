@@ -41,7 +41,7 @@ struct args_agregar parse_args_agregar() {
   strcpy(args.nomes[2], "Sem freguesia");
 
   // TODO garantir que ha pelo menos 2
-  
+
   char* nivel_string = strtok(NULL, " ");
   args.nivel = atoi(nivel_string);
 
@@ -64,14 +64,21 @@ struct args_agregar parse_args_agregar() {
 struct freguesia {
   char nome[20];
   int valor;
-}
+};
 
 struct conselho {
   char nome[20];
   struct freguesia_s *freguesias;
-}
+};
 
 struct distrito {
   char nome[20];
   struct conselho_s *conselhos;
+};
+
+int incrementar(char *nome[], unsigned valor) {
+  return 0;
+}
+int agregar(char *prefixo[], unsigned nivel, char *path) {
+  return 0;
 }
