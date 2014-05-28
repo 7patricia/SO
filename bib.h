@@ -1,3 +1,5 @@
+#include <string.h>
+
 struct args_incrementar {
   int valor;
   char nomes[3][20];
@@ -61,24 +63,55 @@ struct args_agregar parse_args_agregar() {
   return args;
 }
 
+struct array_distritos {
+  struct distrito ;
+}
+
 struct freguesia {
   char nome[20];
   int valor;
 };
 
-struct conselho {
+struct concelho {
   char nome[20];
   struct freguesia_s *freguesias;
 };
 
 struct distrito {
   char nome[20];
-  struct conselho_s *conselhos;
+  struct concelho_s *concelhos;
 };
 
 int incrementar(char *nome[], unsigned valor) {
+
+        // TODO 2.procurar o conselho (criar se nao existir)
+        // TODO 3.procurar a freguesia (criar se nao existir)
+        //
+        // TODO 4.incrementar o valor
   return 0;
 }
 int agregar(char *prefixo[], unsigned nivel, char *path) {
+    // TODO 5. nivel == 0 ..
+        // TODO 5. nivel == 1 ..
+        // TODO 5. nivel == 2 ..
+        // TODO 5. nivel == 3 ..
+        //
+        // TODO muitos. gravar no ficheiro
   return 0;
 }
+
+//Função que procura um distrito e se não existir cria um novo
+
+struct distrito procura_distrito(struct array_distritos distritos, char *nome)
+{
+  int i;
+
+  for(i=0;i<distritos.num;i++)
+    if(strcmp(nome,distritos.distritos[i]->nome)==0)
+      return distritos.distritos[i];
+  struct distrito novo_distrito = (struct distrito)malloc(sizeof(struct distrito));
+  novo_distrito.nome = nome;
+
+  return novo_distrito;
+}
+
