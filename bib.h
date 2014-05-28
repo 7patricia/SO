@@ -64,7 +64,7 @@ struct args_agregar parse_args_agregar() {
 }
 
 struct array_distritos {
-  struct distrito ;
+  struct * distrito ;
 }
 
 struct freguesia {
@@ -82,12 +82,11 @@ struct distrito {
   struct concelho_s *concelhos;
 };
 
-int incrementar(char *nome[], unsigned valor) {
 
-        // TODO 2.procurar o conselho (criar se nao existir)
-        // TODO 3.procurar a freguesia (criar se nao existir)
-        //
+
+int incrementar(char *nome[], unsigned valor) {
         // TODO 4.incrementar o valor
+
   return 0;
 }
 int agregar(char *prefixo[], unsigned nivel, char *path) {
@@ -104,14 +103,43 @@ int agregar(char *prefixo[], unsigned nivel, char *path) {
 
 struct distrito procura_distrito(struct array_distritos distritos, char *nome)
 {
-  int i;
+  int i=0;
 
-  for(i=0;i<distritos.num;i++)
-    if(strcmp(nome,distritos.distritos[i]->nome)==0)
-      return distritos.distritos[i];
+  while (distritos[i]!=NULL)
+    if(strcmp(nome,distritos->distrito[i]->nome)==0)
+      return distritos->distrito[i];
   struct distrito novo_distrito = (struct distrito)malloc(sizeof(struct distrito));
   novo_distrito.nome = nome;
 
   return novo_distrito;
+
+  //Função que procura um concelho e se não existir cria um novo
+
+struct concelho procura_concelho(struct concelho_s *concelhos, char *nome)
+
+  int i=0;
+
+  while(concelhos[i]!=NULL)
+    if(strcmp(nome,concelhos->concelho[i].nome)==0)
+      return concelhos->concelho[i];
+  struct concelho novo_concelho = (struct concelho)malloc(sizeof(struct concelho));
+  novo_concelho.nome = nome;
+
+  return novo_concelho;
+}
+
+//Função que procura uma freguesia e se não existir cria um novo
+
+struct freguesia procura_freguesia(struct freguesia_s *freguesias, char *nome)
+
+  int i=0;
+
+  while(freguesias[i]!=NULL)
+    if(strcmp(nome,freguesias->freguesia[i].nome)==0)
+      return freguesias->freguesia[i];
+  struct freguesia nova_freguesia = (struct freguesia)malloc(sizeof(struct freguesia));
+  nova_freguesia.nome = nome;
+
+  return nova_freguesia;
 }
 
