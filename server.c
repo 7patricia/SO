@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define SIZE 32
+#define SIZE 50
 #define PIPE_NAME "/tmp/server"
 
 #include "bib.h"
@@ -18,25 +18,33 @@ int main(int argc, char **argv) {
 
   int fd = open(PIPE_NAME, O_RDONLY);
 
+  struct distritos distritos;
+  distritos.num_distritos = 0;
+
   while (1) {
     // 1. ler o comando
     int cmd_size;
-    read(fd, &cmd_size, sizeof(int));
-    read(fd, buf, cmd_size);
-    buf[cmd_size]=+'\0';
+    int bytes = read(fd, &cmd_size, sizeof(int));
 
-    comando = strtok(buf," ");
+    if (bytes > 0) {
+      read(fd, buf, cmd_size);
+      buf[cmd_size] = '\0';
 
-    if (strcmp(comando, "incrementar") == 0) {
-      struct args_incrementar args_inc = parse_args_incrementar();
+      comando = strtok(buf," ");
 
-      incrementar(args_inc.nomes, args_inc.valor);
-        
-    } else if (strcmp(comando, "agregar") == 0) {
-      struct args_agregar args_ag = parse_args_agregar();
+      if (strcmp(comando, "incrementar") == 0) {
+        struct args_incrementar args_inc = parse_args_incrementar();
 
-      agregar(args_ag.nomes, args_ag.nivel, args_ag.ficheiro);
-      
+        incrementar(distritos, args_inc.nomes, args_inc.valor);
+      } else if (strcmp(comando, "agregar") == 0) {
+        struct args_agregar args_ag = parse_args_agregar();
+
+        agregar(args_ag.nomes, args_ag.nivel, args_ag.ficheiro);
+      }
+    } else {
+      unlink(PIPE_NAME);
+      mkfifo(PIPE_NAME, 0666);
+      fd = open(PIPE_NAME, O_RDONLY);
     }
   }
 }

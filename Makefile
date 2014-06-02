@@ -2,9 +2,9 @@ default: all
 
 all: server client
 
-server.o: server.c
+server.o: server.c bib.h
 	gcc -c server.c -g
-client.o: client.c
+client.o: client.c bib.h
 	gcc -c client.c -g
 
 server: server.o

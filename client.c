@@ -17,6 +17,6 @@ int main(int argc, char **argv) {
     gets(buf);
     int size = strlen(buf);
     write(fd, &size, sizeof(int));
-    write(fd, buf, SIZE);
+    write(fd, buf, size);
   }
 }
